@@ -49,6 +49,8 @@ cat /proc/sys/kernel/perf_event_paranoid
 
 ## 课程
 
+完整规划见 [OUTLINE.md](OUTLINE.md)，下表只列已完成并实测通过的课。
+
 | 课 | 主题 | 示例程序 |
 |---|---|---|
 | [01](lessons/01_environment/README.md) | 环境自检与构建跑通 | `01_environment` |
