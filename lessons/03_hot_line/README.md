@@ -46,7 +46,7 @@ for (std::uint64_t i = 0; i < n; ++i) {
 
 `idx` 存的是"下一个下标"，所以下一次读哪里，必须先读到这一次的值才知道。
 这条依赖链没法并行，只能一次一次等。
-数组 256 MiB 又远大于本机 36 MiB 的 L3，大多数访问要走到内存。
+数组 256 MiB 远大于 36 MiB 的 L3，大多数访问要走到内存。
 
 ### 3. 为什么拆成两个函数
 
@@ -73,7 +73,7 @@ taskset -c 2 perf record -e cycles:ppp -F 999 -g -o perf.data \
 - `-g`：记录调用栈。
 - `taskset -c 2`：绑到 P 核，避免大小核迁移，和第 02 课一致。
 
-本机是大小核架构，perf 会把 `cycles` 映射到 P 核的事件，
+测试环境的 CPU 是大小核架构，perf 会把 `cycles` 映射到 P 核的事件，
 所以报告表头显示的是 `cpu_core/cycles/ppp`。
 
 实际运行约 0.94 秒，采到 1000 多个样本：
@@ -191,7 +191,7 @@ taskset -c 2 perf record -e cpu-clock -F 999 -g -o perf.data \
 **2. 报告里出现 `??:0` 或 `[k] 0xffffffff...`**
 
 这些是内核里的样本。
-本机 `/proc/kallsyms` 有权限限制，perf 解析不出内核符号，于是显示成地址。
+`/proc/kallsyms` 受权限限制，perf 解析不出内核符号，于是显示成地址。
 它们通常只占几个百分点，忽略即可。
 
 **3. 样本只有十几条**

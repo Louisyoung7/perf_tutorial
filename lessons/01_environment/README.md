@@ -126,7 +126,7 @@ cat /proc/sys/kernel/perf_event_paranoid
 sudo sysctl -w kernel.perf_event_paranoid=1
 ```
 
-本机初始值是 4，当时的实际输出是：
+测试环境的初始值是 4，当时的实际输出是：
 
 ```
    <not supported>      cpu_core/cpu-cycles/u
@@ -137,7 +137,7 @@ sudo sysctl -w kernel.perf_event_paranoid=1
 
 **2. 样本只有十几个**
 
-这台机器的 CPU 是大小核架构：性能核叫 P 核，能效核叫 E 核。
+测试环境的 CPU 是大小核架构：性能核叫 P 核，能效核叫 E 核。
 两类核心的硬件计数器是分开的，perf 里分别叫 `cpu_core` 和 `cpu_atom`。
 `perf record` 不带 `-e` 时默认选了 `cpu_atom` 的事件，
 而程序大多跑在 P 核上，采到的样本自然少。
