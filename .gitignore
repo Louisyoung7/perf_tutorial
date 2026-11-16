@@ -57,6 +57,10 @@ compile_commands.json
 *.bak
 *.swp
 
+# perf 采样数据
+perf.data
+perf.data.old
+
 # vcpkg
 vcpkg_installed/
 
