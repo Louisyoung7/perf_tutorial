@@ -13,3 +13,4 @@ endif()
 add_compile_options(-O2 -g -fno-omit-frame-pointer)
 
 add_subdirectory(lessons/01_environment)
+add_subdirectory(lessons/02_stat_metrics)
