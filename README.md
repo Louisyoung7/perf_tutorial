@@ -53,6 +53,7 @@ cat /proc/sys/kernel/perf_event_paranoid
 |---|---|---|
 | [01](lessons/01_environment/README.md) | 环境自检与构建跑通 | `01_environment` |
 | [02](lessons/02_stat_metrics/README.md) | 读懂 perf stat 的六个数字 | `02_stat_metrics` |
+| [03](lessons/03_hot_line/README.md) | 采样到行，定位热点代码行 | `03_hot_line` |
 
 ## 新增一课
 
