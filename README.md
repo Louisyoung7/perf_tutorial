@@ -6,7 +6,7 @@ Learn Linux perf the hard way — by writing C++ programs that are meant to be p
 
 ## 构建
 
-依赖：CMake >= 3.16、支持 C++20 的编译器、Linux `perf`。
+依赖：CMake >= 3.16、支持 C++17 的编译器、Linux `perf`。
 
 ```bash
 cmake -S . -B build
@@ -32,7 +32,7 @@ cmake --build build -j
 | CMake | 3.28.3 |
 | perf | 7.0.14 |
 | `perf_event_paranoid` | 1 |
-| 构建配置 | Release，C++20，`-O2 -g -fno-omit-frame-pointer` |
+| 构建配置 | Release，C++17，`-O2 -g -fno-omit-frame-pointer` |
 
 自查命令：
 
@@ -53,10 +53,15 @@ cat /proc/sys/kernel/perf_event_paranoid
 
 | 课 | 主题 | 示例程序 |
 |---|---|---|
-| [01](lessons/01_environment/README.md) | 环境自检与构建跑通 | `01_environment` |
-| [02](lessons/02_stat_metrics/README.md) | 读懂 perf stat 的六个数字 | `02_stat_metrics` |
-| [03](lessons/03_hot_line/README.md) | 采样到行，定位热点代码行 | `03_hot_line` |
-| [04](lessons/04_callstack_flamegraph/README.md) | 调用栈与火焰图 | `04_callstack_flamegraph` |
+| [01](lessons/01_environment/README.md) | 环境自检与工具全景 | `01_environment` |
+| [02](lessons/02_stat_basics/README.md) | 第一次读 `perf stat`：IPC | `02_stat_basics` |
+| [03](lessons/03_memory_wait/README.md) | 程序在等内存 | `03_memory_wait` |
+| [04](lessons/04_branch_miss/README.md) | 分支猜错 | `04_branch_miss` |
+| [05](lessons/05_hot_line/README.md) | 采样到行，定位热点代码行 | `05_hot_line` |
+| [06](lessons/06_callers/README.md) | 热点被谁调用 | `06_callers` |
+| [07](lessons/07_flamegraph/README.md) | 火焰图 | `07_flamegraph`（复用 06 的源码） |
+
+每课开头都有"最短路径"，可以先照着敲跑通，再回头读解释。
 
 ## 新增一课
 

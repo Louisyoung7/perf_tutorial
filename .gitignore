@@ -62,6 +62,8 @@ perf.data
 perf.data.old
 perf.folded
 flamegraph.svg
+# 例外：第 07 课的火焰图作为课程产物提交
+!lessons/07_flamegraph/flamegraph.svg
 
 # vcpkg
 vcpkg_installed/
