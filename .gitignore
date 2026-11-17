@@ -60,6 +60,8 @@ compile_commands.json
 # perf 采样数据
 perf.data
 perf.data.old
+perf.folded
+flamegraph.svg
 
 # vcpkg
 vcpkg_installed/
