@@ -13,7 +13,8 @@ cmake -S . -B build
 cmake --build build -j
 ```
 
-所有目标统一使用 `-O2 -g -fno-omit-frame-pointer`，保证 perf 能解析符号、采样栈完整。
+所有目标默认使用 `-O2 -g -fno-omit-frame-pointer`，保证 perf 能解析符号、采样栈完整。
+第 08 课额外编了两组对照，分别去掉调试信息和符号表。
 
 ## 测试环境
 
@@ -60,6 +61,10 @@ cat /proc/sys/kernel/perf_event_paranoid
 | [05](lessons/05_hot_line/README.md) | 采样到行，定位热点代码行 | `05_hot_line` |
 | [06](lessons/06_callers/README.md) | 热点被谁调用 | `06_callers` |
 | [07](lessons/07_flamegraph/README.md) | 火焰图 | `07_flamegraph`（复用 06 的源码） |
+| [08](lessons/08_symbols/README.md) | 符号与调试信息（选学） | `08_symbols` |
+
+主线课程到 07 结束，走完即可完成一次完整的 perf 分析。
+08 为选学；09、17 为推荐补充；其余课程按需学习，详见大纲。
 
 每课开头都有"最短路径"，可以先照着敲跑通，再回头读解释。
 
