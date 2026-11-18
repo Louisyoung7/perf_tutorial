@@ -1,6 +1,6 @@
 # 07 把调用栈画成火焰图
 
-第 06 课用 `--children` 和调用树看清了"谁调用了热点"，但文本不容易分享，也不容易一眼看出比例。
+上一课用 `--children` 和调用树看清了"谁调用了热点"，但文本不容易分享，也不容易一眼看出比例。
 这一课只做一件事：**把同一份采样画成火焰图。**
 
 ## 最短路径
@@ -9,7 +9,7 @@
 # 1. 构建（已经建过就跳过）
 cmake -S . -B build && cmake --build build -j
 
-# 2. 采样（约 1 秒，和第 06 课用的是同一个程序）
+# 2. 采样（约 1 秒，和上一课用的是同一个程序）
 taskset -c 2 perf record -e cycles:ppp -F 999 --call-graph dwarf -o perf.data \
   ./build/lessons/07_flamegraph/07_flamegraph
 
@@ -26,7 +26,8 @@ perf script -i perf.data --no-inline \
 
 ## 一、程序与采样
 
-本课不另写示例程序，直接复用第 06 课的源码，保证两次采样对象完全一致：
+> 程序沿用上一课，不关心它长什么样没关系，可以直接跳到 [二、准备两个脚本](#二准备两个脚本)。
+本课不另写示例程序，直接复用上一课的源码，保证两次采样对象完全一致：
 
 ```cmake
 add_executable(07_flamegraph ${CMAKE_CURRENT_SOURCE_DIR}/../06_callers/main.cpp)
@@ -39,7 +40,7 @@ add_executable(07_flamegraph ${CMAKE_CURRENT_SOURCE_DIR}/../06_callers/main.cpp)
 | `handle` | `handle` → `decode` → `mix` | 600 万 |
 | `render` | `render` → `mix` | 400 万 |
 
-采样命令也和第 06 课一致，`--call-graph dwarf` 是必须的：
+采样命令也和上一课一致，`--call-graph dwarf` 是必须的：
 
 ```
 handle = 100634835994411
@@ -51,7 +52,7 @@ elapsed: 0.935268 s
 
 ## 二、准备两个脚本
 
-火焰图不是 perf 自带的功能，需要 Brendan Gregg 的两个 Perl 脚本：
+火焰图要借助 Brendan Gregg 的两个 Perl 脚本，perf 本身不带：
 
 ```bash
 git clone --depth 1 https://github.com/brendangregg/FlameGraph.git /tmp/FlameGraph
@@ -97,7 +98,7 @@ perf script -i perf.data --no-inline \
 - 行末的数字是这条栈累计的样本权重；
 - 相同的栈会被合并，所以行数远少于样本数（1036 个样本 → 26 行）。
 
-这两行的比值约 `60 : 40`，和第 06 课 `--children` 里的 `54.61 : 36.20` 一致。
+这两行的比值约 `60 : 40`，和上一课 `--children` 里的 `54.61 : 36.20` 一致。
 
 本课已经生成了一份：[flamegraph.svg](flamegraph.svg)
 
@@ -116,12 +117,12 @@ perf script -i perf.data --no-inline \
    宽度比就是 6 : 4；
 3. 两块的最顶端都是 `mix`，说明两条路最终都停在同一个热点上。
 
-和第 06 课的调用树对比，信息完全一样，只是换了一种排布：
+和上一课的调用树对比，信息完全一样，只是换了一种排布：
 树是按深度缩进的，火焰图是按样本宽度横向铺开的。
 
 ## 五、本节收获
 
-- 火焰图不是新数据，只是调用树按样本宽度重新排布；
+- 火焰图没有新数据，只是把调用树按样本宽度重新排布；
 - 生成只要两条管道命令：先折叠栈，再画图；
 - 看图先看宽度占比，再看深度；左右顺序不代表时间先后；
 - `--no-inline` 能让图更接近源码结构；
@@ -153,12 +154,12 @@ git clone --depth 1 https://github.com/brendangregg/FlameGraph.git /tmp/FlameGra
 
 **4. 折叠栈只有几行 / 图很平**
 
-`perf.data` 里的栈没收全，多半是采样时用了 `-g` 而不是 `--call-graph dwarf`。
+`perf.data` 里的栈没收全，多半是采样时用了 `-g`，没加 `--call-graph dwarf`。
 帧指针版本会在叶子函数那里断掉，图就少一层。
 
 **5. 想重新采样**
 
-倍率参数和第 06 课一样，两条链一起放大：
+倍率参数和上一课一样，两条链一起放大：
 
 ```bash
 ./build/lessons/07_flamegraph/07_flamegraph 2

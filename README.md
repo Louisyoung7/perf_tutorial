@@ -53,8 +53,8 @@ cat /proc/sys/kernel/perf_event_paranoid
 
 | 课 | 主题 | 示例程序 |
 |---|---|---|
-| [01](lessons/01_environment/README.md) | 环境自检与工具全景 | `01_environment` |
-| [02](lessons/02_stat_basics/README.md) | 第一次读 `perf stat`：IPC | `02_stat_basics` |
+| [01](lessons/01_environment/README.md) | 环境自检与构建跑通 | `01_environment` |
+| [02](lessons/02_stat_basics/README.md) | 第一次用 perf：读 `perf stat` 的 IPC | `02_stat_basics` |
 | [03](lessons/03_memory_wait/README.md) | 程序在等内存 | `03_memory_wait` |
 | [04](lessons/04_branch_miss/README.md) | 分支猜错 | `04_branch_miss` |
 | [05](lessons/05_hot_line/README.md) | 采样到行，定位热点代码行 | `05_hot_line` |

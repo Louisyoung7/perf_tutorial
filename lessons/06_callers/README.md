@@ -1,6 +1,6 @@
 # 06 热点是被谁调用的
 
-第 05 课把时间定位到了 `main.cpp:27`。
+上一课把时间定位到了 `main.cpp:27`。
 这一课只回答一个问题：**这行代码是被谁调用的？两条路径各占多少？**
 
 工具还是 `perf record`，只多一个参数：把调用栈完整采下来。
@@ -24,6 +24,8 @@ perf report --stdio -i perf.data --children -g none --no-inline
 
 ## 一、示例程序
 
+> 不关心程序的具体逻辑没关系，可以直接跳到 [二、那条命令](#二那条命令)。
+
 [main.cpp](main.cpp) 只有一个热点 `mix`，但有两个入口：
 
 | 入口 | 调用链 | 迭代次数 |
@@ -31,7 +33,7 @@ perf report --stdio -i perf.data --children -g none --no-inline
 | `handle` | `handle` → `decode` → `mix` | 600 万 |
 | `render` | `render` → `mix` | 400 万 |
 
-`mix` 就是第 03 课的指针追逐，在 256 MiB 的表里随机跳。
+`mix` 就是等内存那一课的指针追逐，在 256 MiB 的表里随机跳。
 两条链的迭代次数是 `6 : 4`，下一节拿它对照报告里的占比。
 
 ### 为什么要拆成两条链
@@ -63,7 +65,7 @@ taskset -c 2 perf record -e cycles:ppp -F 999 --call-graph dwarf -o perf.data \
   ./build/lessons/06_callers/06_callers
 ```
 
-和第 05 课只差一个参数：`-g` 换成 `--call-graph dwarf`。
+和上一课只差一个参数：`-g` 换成 `--call-graph dwarf`。
 
 | 参数 | 展开方式 |
 |---|---|
@@ -84,7 +86,7 @@ elapsed: 0.935268 s
 [ perf record: Captured and wrote 8.205 MB perf.data (1036 samples) ]
 ```
 
-样本数和第 05 课差不多，文件却从 0.1 MB 涨到 8.2 MB——多出来的就是栈数据。
+样本数和上一课差不多，文件却从 0.1 MB 涨到 8.2 MB——多出来的就是栈数据。
 
 ## 三、先确认热点没变
 
@@ -103,7 +105,7 @@ perf report --stdio -i perf.data -g none --no-children
      1.61%  06_callers  libc.so.6             [.] __memset_avx2_unaligned_erms
 ```
 
-和第 05 课一样：热点只有一个，占九成。
+和上一课一样：热点只有一个，占九成。
 扁平报告只能说明"时间在 `mix` 里"，说不出"从哪条路来"。
 
 ## 四、换一种口径：看 Children
@@ -113,6 +115,7 @@ perf report --stdio -i perf.data --children -g none --no-inline
 ```
 
 `--children` 把统计口径换成**包含子调用**，输出多一列 `Children`。
+`--no-inline` 让被内联展开的代码不再单独成行，同一个函数不会被拆成好几行。
 
 实际输出（只留程序自身的函数）：
 
@@ -157,7 +160,7 @@ perf report --stdio -i perf.data --children -g none --no-inline
 - 采样文件变大是正常代价，栈数据比样本本身大得多。
 
 到这里能回答"谁调用了热点"，但树状文本仍然不好看比例、也不好分享。
-下一课把它画成图。
+接下来把它画成图。
 
 ## 附：跑不出结果时
 
@@ -173,7 +176,7 @@ perf report --stdio -i perf.data --children -g none --no-inline
 
 **3. 想看树状结构**
 
-不加 `--children`，`perf report` 会按调用树展开：
+去掉 `-g none`（用回默认的 `-g graph`），`perf report` 才会按调用树展开：
 
 ```bash
 perf report --stdio -i perf.data --no-inline --percent-limit 3
