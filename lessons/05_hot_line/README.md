@@ -168,15 +168,17 @@ perf report --stdio -i perf.data --no-children -g none
 `perf report` 默认按函数汇总。加一个排序参数，第一列就换成源码行：
 
 ```bash
-perf report --stdio -i perf.data --sort srcline --no-children -g none
+perf report --stdio -i perf.data --sort srcline --no-children -g none --percent-limit 0.5
 ```
 
-三个参数的含义：
+四个参数的含义：
 
 - `--sort srcline`：指定汇总维度。`srcline` 是"源码文件加行号"，第一列因此变成 `main.cpp:27` 这种形式；
 - `--no-children`：只算这一行自身采样到的开销，不把子函数的时间累加上来；
 - `-g none`：和上一节一样不打印调用链。采样时用了 `-g`，不加这个参数，
-  每行下面会跟着一串 `|`、`---` 的调用栈，一直列到 `_start`，报告会变长好几倍。
+  每行下面会跟着一串 `|`、`---` 的调用栈，一直列到 `_start`，报告会变长好几倍；
+- `--percent-limit 0.5`：只显示占比不低于 0.5% 的行。
+  不加这个参数时，所有采到样本的行都会列出来。
 
 排序字段可以叠加，用逗号分隔，按书写顺序分层。
 
@@ -219,7 +221,7 @@ perf report --stdio -i perf.data --sort srcline --no-children -g none
 
 ### 数据行
 
-只有五行，是因为报告默认隐藏占比低于 0.5% 的行（由 `--min-percent` 控制）。
+只有五行，是因为命令里加了 `--percent-limit 0.5`，占比低于 0.5% 的行被隐藏了。
 `scan` 的循环因此一行都没出现。
 
 逐行对照源码：

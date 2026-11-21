@@ -64,6 +64,8 @@ cat /proc/sys/kernel/perf_event_paranoid
 | [08](lessons/08_symbols/README.md) | 符号与调试信息（选学） | `08_symbols` |
 | [09](lessons/09_events/README.md) | 事件选择与精确采样 | `09_events` |
 
+常用命令的集中速查见 [CHEATSHEET.md](CHEATSHEET.md)。
+
 主线课程到 07 结束，走完即可完成一次完整的 perf 分析。
 08 为选学；09、10、18 为推荐补充；其余课程按需学习，详见大纲。
 
