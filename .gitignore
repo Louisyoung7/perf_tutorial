@@ -60,6 +60,7 @@ compile_commands.json
 # perf 采样数据
 perf.data
 perf.data.old
+*.data
 perf.folded
 flamegraph.svg
 # 例外：第 07 课的火焰图作为课程产物提交
